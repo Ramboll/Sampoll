@@ -1,15 +1,7 @@
 namespace Sampøll
 {
-    public partial class Form1 : Form
+    public partial class LabelOptionsForm : Form
     {
-        private static readonly int Margin = 10;
-        private static readonly int HeaderHeight = 50;
-        private static readonly int RowHeight = 30;
-        private static readonly int LabelWidth = 100;
-        private static readonly int LabelHeight = 20;
-        private static readonly int InputWidth = 200;
-        private static readonly int InputHeight = 20;
-
         private TableLayoutPanel _table;
         // Fields for validation
         private TextBox _projectNumberInput, _locationInput, _initialsInput;
@@ -20,7 +12,7 @@ namespace Sampøll
         private Label _dateRangeFromLabel, _dateRangeToLabel;
         private CheckBox _useDateRangeCheckbox;
 
-        public Form1()
+        public LabelOptionsForm()
         {
             InitializeComponent();
             AddHeader();
@@ -39,8 +31,8 @@ namespace Sampøll
             AddSubmitButton();
 
             this.Text = "SAMPØLL";
-            int viewWidth = (Margin * 2) * 2 + LabelWidth + InputWidth;
-            int viewHeight = (Margin * 2) + (RowHeight * _table.RowCount) + HeaderHeight;
+            int viewWidth = (Constants.Margin * 2) * 2 + Constants.LabelWidth + Constants.InputWidth;
+            int viewHeight = (Constants.Margin * 2) + (Constants.RowHeight * _table.RowCount) + Constants.HeaderHeight;
             this.Size = new System.Drawing.Size(viewWidth, viewHeight);
             this.Icon = new Icon("icon.ico");
         }
@@ -50,10 +42,10 @@ namespace Sampøll
             var header = new Label
             {
                 Text = "SAMPØLL",
-                Location = new Point(Margin, Margin),
+                Location = new Point(Constants.Margin, Constants.Margin),
                 Font = new Font("MonoSpace", 24, FontStyle.Bold),
                 ForeColor = Color.White,
-                Size = new Size(300, HeaderHeight),
+                Size = new Size(Constants.HeaderWidth, Constants.HeaderHeight),
                 TextAlign = ContentAlignment.MiddleCenter,
                 BackColor = Color.DodgerBlue
             };
@@ -66,12 +58,12 @@ namespace Sampøll
             {
                 ColumnCount = 2,
                 RowCount = 0, // will grow as you add rows
-                Location = new Point(Margin, Margin + HeaderHeight),
+                Location = new Point(Constants.Margin, Constants.Margin + Constants.HeaderHeight),
                 AutoSize = true,
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
                 CellBorderStyle = TableLayoutPanelCellBorderStyle.None
             };
-            _table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, LabelWidth));
+            _table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, Constants.LabelWidth));
             _table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             this.Controls.Add(_table);
         }
@@ -79,22 +71,22 @@ namespace Sampøll
         private void AddRow(Control label, Control input)
         {
             _table.RowCount += 1;
-            _table.RowStyles.Add(new RowStyle(SizeType.Absolute, RowHeight));
+            _table.RowStyles.Add(new RowStyle(SizeType.Absolute, Constants.RowHeight));
             _table.Controls.Add(label, 0, _table.RowCount - 1);
             _table.Controls.Add(input, 1, _table.RowCount - 1);
         }
 
         private void AddProjectNumberField()
         {
-            var prjnumLabel = new Label { Text = "Project Number:", Size = new Size(LabelWidth, LabelHeight) };
-            _projectNumberInput = new TextBox { Size = new Size(InputWidth, InputHeight) };
+            var prjnumLabel = new Label { Text = "Project Number:", Size = new Size(Constants.LabelWidth, Constants.LabelHeight) };
+            _projectNumberInput = new TextBox { Size = new Size(Constants.InputWidth, Constants.InputHeight) };
             AddRow(prjnumLabel, _projectNumberInput);
         }
 
         private void AddLocationField()
         {
-            var locationLabel = new Label { Text = "Location:", Size = new Size(LabelWidth, LabelHeight) };
-            _locationInput = new TextBox { Size = new Size(InputWidth, InputHeight) };
+            var locationLabel = new Label { Text = "Location:", Size = new Size(Constants.LabelWidth, Constants.LabelHeight) };
+            _locationInput = new TextBox { Size = new Size(Constants.InputWidth, Constants.InputHeight) };
             AddRow(locationLabel, _locationInput);
         }
 
@@ -135,14 +127,14 @@ namespace Sampøll
             _dateRangeFromPicker.Visible = useRange;
             _dateRangeToLabel.Visible = useRange;
             _dateRangeToPicker.Visible = useRange;
-            int heightChange = 50 + Margin;
+            int heightChange = 50 + Constants.Margin;
             this.Size = new Size(this.Width, this.Height + (useRange ? heightChange : -heightChange));
         }
 
         private void AddInitialsFields()
         {
-            var initialsLabel = new Label { Text = "Initials:", Size = new Size(LabelWidth, LabelHeight) };
-            _initialsInput = new TextBox { Size = new Size(InputWidth, InputHeight) };
+            var initialsLabel = new Label { Text = "Initials:", Size = new Size(Constants.LabelWidth, Constants.LabelHeight) };
+            _initialsInput = new TextBox { Size = new Size(Constants.InputWidth, Constants.InputHeight) };
             AddRow(initialsLabel, _initialsInput);
         }
 
@@ -164,22 +156,22 @@ namespace Sampøll
 
         private void AddFilledPagesField()
         {
-            var filledPagesLabel = new Label { Text = "Pages:", Size = new Size(LabelWidth, LabelHeight) };
-            _filledPagesInput = new NumericUpDown { Size = new Size(InputWidth, InputHeight), Minimum = 0 };
+            var filledPagesLabel = new Label { Text = "Pages:", Size = new Size(Constants.LabelWidth, Constants.LabelHeight) };
+            _filledPagesInput = new NumericUpDown { Size = new Size(Constants.InputWidth, Constants.InputHeight), Minimum = 0 };
             AddRow(filledPagesLabel, _filledPagesInput);
         }
 
         private void AddEmptyNumbersPagesField()
         {
-            var emptyNumbersPagesLabel = new Label { Text = "Empty Numbers Pages:", Size = new Size(LabelWidth, LabelHeight) };
-            _emptyNumbersPagesInput = new NumericUpDown { Size = new Size(InputWidth, InputHeight), Minimum = 0 };
+            var emptyNumbersPagesLabel = new Label { Text = "Empty Numbers Pages:", Size = new Size(Constants.LabelWidth, Constants.LabelHeight) };
+            _emptyNumbersPagesInput = new NumericUpDown { Size = new Size(Constants.InputWidth, Constants.InputHeight), Minimum = 0 };
             AddRow(emptyNumbersPagesLabel, _emptyNumbersPagesInput);
         }
 
         private void AddEmptyPagesField()
         {
-            var emptyPagesLabel = new Label { Text = "Empty Pages:", Size = new Size(LabelWidth, LabelHeight) };
-            _emptyPagesInput = new NumericUpDown { Size = new Size(InputWidth, InputHeight), Minimum = 0 };
+            var emptyPagesLabel = new Label { Text = "Empty Pages:", Size = new Size(Constants.LabelWidth, Constants.LabelHeight) };
+            _emptyPagesInput = new NumericUpDown { Size = new Size(Constants.InputWidth, Constants.InputHeight), Minimum = 0 };
             AddRow(emptyPagesLabel, _emptyPagesInput);
         }
 
@@ -297,8 +289,8 @@ namespace Sampøll
 
         private void AddPageTypeOptionsField()
         {
-            var pageTypeLabel = new Label { Text = "Page Type:", Size = new Size(LabelWidth, LabelHeight) };
-            _pageTypeComboBox = new ComboBox { Size = new Size(InputWidth, InputHeight) };
+            var pageTypeLabel = new Label { Text = "Page Type:", Size = new Size(Constants.LabelWidth, Constants.LabelHeight) };
+            _pageTypeComboBox = new ComboBox { Size = new Size(Constants.InputWidth, Constants.InputHeight) };
             _pageTypeComboBox.Items.AddRange(new[] { "2x7", "3x7" });
             _pageTypeComboBox.SelectedIndex = 0;
             AddRow(pageTypeLabel, _pageTypeComboBox);
@@ -306,18 +298,18 @@ namespace Sampøll
 
         private void AddSampleTypeFields()
         {
-            var sampleTypeLabel = new Label { Text = "Sample Type:", Size = new Size(LabelWidth, LabelHeight) };
-            _sampleTypeComboBox = new ComboBox { Size = new Size(InputWidth, InputHeight) };
+            var sampleTypeLabel = new Label { Text = "Sample Type:", Size = new Size(Constants.LabelWidth, Constants.LabelHeight) };
+            _sampleTypeComboBox = new ComboBox { Size = new Size(Constants.InputWidth, Constants.InputHeight) };
             _sampleTypeComboBox.Items.AddRange(new[] { "Material sample", "Drilling Sample", "Surface Sample (Not done)" });
             _sampleTypeComboBox.SelectedIndex = 0;
 
-            var drillNumberLabel = new Label { Text = "Drill Number:", Size = new Size(LabelWidth, LabelHeight), Visible = false };
-            _drillNumberComboBox = new ComboBox { Size = new Size(InputWidth, InputHeight), Visible = false };
+            var drillNumberLabel = new Label { Text = "Drill Number:", Size = new Size(Constants.LabelWidth, Constants.LabelHeight), Visible = false };
+            _drillNumberComboBox = new ComboBox { Size = new Size(Constants.InputWidth, Constants.InputHeight), Visible = false };
             _drillNumberComboBox.Items.AddRange(new[] { "1", "10", "20", "30", "40" });
             _drillNumberComboBox.SelectedIndex = 0;
 
-            var depthLabel = new Label { Text = "Max Depth:", Size = new Size(LabelWidth, LabelHeight), Visible = false };
-            _depthInput = new TextBox { Size = new Size(InputWidth, InputHeight), Visible = false };
+            var depthLabel = new Label { Text = "Max Depth:", Size = new Size(Constants.LabelWidth, Constants.LabelHeight), Visible = false };
+            _depthInput = new TextBox { Size = new Size(Constants.InputWidth, Constants.InputHeight), Visible = false };
 
             AddRow(sampleTypeLabel, _sampleTypeComboBox);
             AddRow(drillNumberLabel, _drillNumberComboBox);

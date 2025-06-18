@@ -1,6 +1,6 @@
 ﻿namespace Sampøll;
 
-partial class Form1
+partial class LabelOptionsForm
 {
     /// <summary>
     ///  Required designer variable.
