@@ -8,7 +8,7 @@ Brief description of your project and its purpose.
 
 Click the button below to download the latest version of the executable:
 
-[![Download](https://img.shields.io/badge/Download--blue.svg)](https://github.com/<your-username>/<your-repo-name>/releases/latest/download/my_app.zip)
+[![Download](https://img.shields.io/badge/Download--blue.svg)](https://github.com/Ramboll/Sampoll/releases/latest/download/sampøll.exe)
 
 ## Usage
 
