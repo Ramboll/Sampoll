@@ -308,7 +308,7 @@ namespace Sampøll
         {
             var sampleTypeLabel = new Label { Text = "Sample Type:", Size = new Size(LabelWidth, LabelHeight) };
             _sampleTypeComboBox = new ComboBox { Size = new Size(InputWidth, InputHeight) };
-            _sampleTypeComboBox.Items.AddRange(new[] { "Material sample", "Drilling Sample" });
+            _sampleTypeComboBox.Items.AddRange(new[] { "Material sample", "Drilling Sample", "Surface Sample (Not done)" });
             _sampleTypeComboBox.SelectedIndex = 0;
 
             var drillNumberLabel = new Label { Text = "Drill Number:", Size = new Size(LabelWidth, LabelHeight), Visible = false };
@@ -331,6 +331,7 @@ namespace Sampøll
                 depthLabel.Visible = isDrilling;
                 _depthInput.Visible = isDrilling;
             };
+            
         }
     }
 }
