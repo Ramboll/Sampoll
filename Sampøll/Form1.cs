@@ -1,328 +1,336 @@
-namespace Sampøll;
-
-public partial class Form1 : Form
+namespace Sampøll
 {
-    private static int margin = 10;
-    private static int headerHeight = 50;
-    private static int rowHeight = 30;
-    private static int labelWidth = 100;
-    private static int labelHeight = 20;
-    private static int inputWidth = 200;
-    private static int inputHeight = 20;
-    
-    private TableLayoutPanel table;
-    private DateTimePicker singleDatePicker;
-    private Label dateRangeFromLabel, dateRangeToLabel;
-    private DateTimePicker dateRangeFromPicker, dateRangeToPicker;
-    private CheckBox useDateRangeCheckbox;
-    
-    public Form1()
-    {        
-        addHeader();
-
-        addTableLayout();
-        
-        addProjectNumberField();
-        
-        addLocationField();
-        
-        addDateField();
-
-        addInitialsFields();
-        
-        addSeparator();
-
-        addSampleTypeFields();
-        
-        addSeparator();
-        
-        addFilledPagesField();
-        
-        addEmptyNumbersPagesField();
-        
-        addEmptyPagesField();
-
-        addPageTypeOptionsField();
-        
-        addSubmitButton();
-        
-        InitializeComponent();
-        
-        this.Text = "SAMPØLL";
-        int viewWidth = (margin * 2) * 2 + labelWidth + inputWidth;
-        int viewHeight = (margin * 2) + (rowHeight * table.RowCount) + headerHeight;
-        this.Size = new System.Drawing.Size(viewWidth, viewHeight);
-        this.Icon = new Icon("icon.ico");
-    }
-
-    private void addHeader()
+    public partial class Form1 : Form
     {
-        Label header = new Label();
-        header.Text = "SAMPØLL";
-        header.Location = new Point(margin, margin);
-        header.Font = new Font("MonoSpace", 24, FontStyle.Bold);
-        header.ForeColor = Color.White;
-        header.Size = new Size(300, headerHeight);
-        header.TextAlign = ContentAlignment.MiddleCenter;
-        header.BackColor = Color.DodgerBlue;
+        private static readonly int Margin = 10;
+        private static readonly int HeaderHeight = 50;
+        private static readonly int RowHeight = 30;
+        private static readonly int LabelWidth = 100;
+        private static readonly int LabelHeight = 20;
+        private static readonly int InputWidth = 200;
+        private static readonly int InputHeight = 20;
 
-        this.Controls.Add(header);
-    }
+        private TableLayoutPanel _table;
+        // Fields for validation
+        private TextBox _projectNumberInput, _locationInput, _initialsInput;
+        private NumericUpDown _filledPagesInput, _emptyNumbersPagesInput, _emptyPagesInput;
+        private ComboBox _pageTypeComboBox, _sampleTypeComboBox, _drillNumberComboBox;
+        private TextBox _depthInput;
+        private DateTimePicker _singleDatePicker, _dateRangeFromPicker, _dateRangeToPicker;
+        private Label _dateRangeFromLabel, _dateRangeToLabel;
+        private CheckBox _useDateRangeCheckbox;
 
-    private void addTableLayout()
-    {
-        table = new TableLayoutPanel();
-        table.ColumnCount = 2;
-        table.RowCount = 0; // will grow as you add rows
-        table.Location = new Point(margin, margin + headerHeight); // some margin below header
-        table.AutoSize = true;
-        table.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-        table.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
-        table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, labelWidth));
-        table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-        this.Controls.Add(table);
-    }
-    
-    private void AddRow(Control label, Control input)
-    {
-        table.RowCount += 1;
-        table.RowStyles.Add(new RowStyle(SizeType.Absolute, rowHeight));
-        table.Controls.Add(label, 0, table.RowCount - 1);
-        table.Controls.Add(input, 1, table.RowCount - 1);
-    }
-    
-    private void addProjectNumberField()
-    {        
-        Label prjnum_l = new Label();
-        prjnum_l.Text = "Project Number:";
-        prjnum_l.Size = new Size(labelWidth, labelHeight);
-        this.Controls.Add(prjnum_l);
-        
-        TextBox prjnum_i = new TextBox();
-        prjnum_i.Size = new Size(inputWidth, inputHeight);
-        this.Controls.Add(prjnum_i);
-        
-        AddRow(prjnum_l, prjnum_i);
-    }
-    
-    private void addLocationField()
-    {
-        Label location_l = new Label();
-        location_l.Text = "Location:";
-        location_l.Size = new Size(labelWidth, labelHeight);
-        this.Controls.Add(location_l);
-        
-        TextBox location_i = new TextBox();
-        location_i.Size = new Size(inputWidth, inputHeight);
-        this.Controls.Add(location_i);
-        
-        AddRow(location_l, location_i);
-    }
-    
-    private void addDateField()
-    {
-    Label dateLabel = new Label { Text = "Date:", TextAlign = ContentAlignment.MiddleLeft, AutoSize = true };
-
-    singleDatePicker = new DateTimePicker();
-
-    dateRangeFromLabel = new Label { Text = "From:", TextAlign = ContentAlignment.MiddleLeft, AutoSize = true, Visible = false };
-    dateRangeFromPicker = new DateTimePicker { Visible = false };
-
-    dateRangeToLabel = new Label { Text = "To:", TextAlign = ContentAlignment.MiddleLeft, AutoSize = true, Visible = false };
-    dateRangeToPicker = new DateTimePicker { Visible = false };
-
-    useDateRangeCheckbox = new CheckBox { Text = "Date Range" };
-    useDateRangeCheckbox.CheckedChanged += UseDateRangeCheckbox_CheckedChanged;
-    
-    var dateContainer = new FlowLayoutPanel();
-    dateContainer.AutoSize = true;
-    dateContainer.Controls.Add(singleDatePicker);
-    dateContainer.Controls.Add(dateRangeFromLabel);
-    dateContainer.Controls.Add(dateRangeFromPicker);
-    dateContainer.Controls.Add(dateRangeToLabel);
-    dateContainer.Controls.Add(dateRangeToPicker);
-
-    // Add a new row to the table
-    table.RowCount += 1;
-    table.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-
-    table.Controls.Add(dateLabel, 0, table.RowCount - 1);
-    table.Controls.Add(dateContainer, 1, table.RowCount - 1);
-
-    // Add checkbox on next row spanning both columns (optional)
-    table.RowCount += 1;
-    table.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-    table.Controls.Add(useDateRangeCheckbox, 0, table.RowCount - 1);
-    table.SetColumnSpan(useDateRangeCheckbox, 2);
-}
-
-    private void UseDateRangeCheckbox_CheckedChanged(object? sender, EventArgs e)
-    {
-        bool useRange = useDateRangeCheckbox.Checked;
-
-        singleDatePicker.Visible = !useRange;
-
-        dateRangeFromLabel.Visible = useRange;
-        dateRangeFromPicker.Visible = useRange;
-        dateRangeToLabel.Visible = useRange;
-        dateRangeToPicker.Visible = useRange;
-
-        int heightChange = 50 + margin;
-        this.Size = new Size(this.Width, this.Height + (useRange ? heightChange : -heightChange));
-    }
-    
-    private void addInitialsFields()
-    {
-        Label initials_l = new Label();
-        initials_l.Text = "Initials:";
-        initials_l.Size = new Size(labelWidth, labelHeight);
-        this.Controls.Add(initials_l);
-        
-        TextBox initials_i = new TextBox();
-        initials_i.Size = new Size(inputWidth, inputHeight);
-        this.Controls.Add(initials_i);
-
-        AddRow(initials_l, initials_i);
-    }
-    
-    private void addSeparator()
-    {
-        // Add a new row for the separator
-        table.RowCount += 1;
-        table.RowStyles.Add(new RowStyle(SizeType.Absolute, 10)); // height of the separator
-
-        // Create a label to act as a separator
-        Label separator = new Label();
-        separator.Text = "--------------------------------------------------------------------------------------------";
-        separator.TextAlign = ContentAlignment.MiddleCenter;
-        separator.AutoSize = true;
-
-        // Add the separator label to the table
-        table.Controls.Add(separator, 0, table.RowCount - 1);
-        table.SetColumnSpan(separator, 2); // span across both columns
-    }
-
-    private void addFilledPagesField()
-    {
-        Label filledPages_l = new Label();
-        filledPages_l.Text = "Pages:";
-        filledPages_l.Size = new Size(labelWidth, labelHeight);
-        this.Controls.Add(filledPages_l);
-
-        NumericUpDown filledPages_i = new NumericUpDown();
-        filledPages_i.Size = new Size(inputWidth, inputHeight);
-        filledPages_i.Minimum = 0;
-        
-        AddRow(filledPages_l, filledPages_i);
-    }
-    
-    private void addEmptyNumbersPagesField()
-    {
-        Label emptyNumbersPages_l = new Label();
-        emptyNumbersPages_l.Text = "Empty Numbers Pages:";
-        emptyNumbersPages_l.Size = new Size(labelWidth, labelHeight);
-        this.Controls.Add(emptyNumbersPages_l);
-
-        NumericUpDown emptyNumbersPages_i = new NumericUpDown();
-        emptyNumbersPages_i.Size = new Size(inputWidth, inputHeight);
-        emptyNumbersPages_i.Minimum = 0;
-
-        AddRow(emptyNumbersPages_l, emptyNumbersPages_i);
-    }
-
-    private void addEmptyPagesField()
-    {
-        Label emptyPages_l = new Label();
-        emptyPages_l.Text = "Empty Pages:";
-        emptyPages_l.Size = new Size(labelWidth, labelHeight);
-        this.Controls.Add(emptyPages_l);
-
-        NumericUpDown emptyPages_i = new NumericUpDown();
-        emptyPages_i.Size = new Size(inputWidth, inputHeight);
-        emptyPages_i.Minimum = 0;
-
-        AddRow(emptyPages_l, emptyPages_i);
-    }
-
-    private void addSubmitButton()
-    {
-        Button submitButton = new Button
+        public Form1()
         {
-            Text = "Submit",
-            AutoSize = true,
-            Anchor = AnchorStyles.Right
-        };
+            InitializeComponent();
+            AddHeader();
+            AddTableLayout();
+            AddProjectNumberField();
+            AddLocationField();
+            AddInitialsFields();
+            AddDateField();
+            AddSeparator();
+            AddSampleTypeFields();
+            AddSeparator();
+            AddFilledPagesField();
+            AddEmptyNumbersPagesField();
+            AddEmptyPagesField();
+            AddPageTypeOptionsField();
+            AddSubmitButton();
 
-        submitButton.Click += (sender, e) => { MessageBox.Show("Form submitted!"); };
+            this.Text = "SAMPØLL";
+            int viewWidth = (Margin * 2) * 2 + LabelWidth + InputWidth;
+            int viewHeight = (Margin * 2) + (RowHeight * _table.RowCount) + HeaderHeight;
+            this.Size = new System.Drawing.Size(viewWidth, viewHeight);
+            this.Icon = new Icon("icon.ico");
+        }
 
-        // Add a new row to the table
-        table.RowCount += 1;
-        table.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-
-        // Add the button in the first column of the new row
-        table.Controls.Add(submitButton, 0, table.RowCount - 1);
-
-        // Span across both columns
-        table.SetColumnSpan(submitButton, 2);
-    }
-    
-    private void addPageTypeOptionsField()
-    {
-        Label pageTypeLabel = new Label();
-        pageTypeLabel.Text = "Page Type:";
-        pageTypeLabel.Size = new Size(labelWidth, labelHeight);
-        this.Controls.Add(pageTypeLabel);
-
-        ComboBox pageTypeComboBox = new ComboBox();
-        pageTypeComboBox.Size = new Size(inputWidth, inputHeight);
-        pageTypeComboBox.Items.AddRange(new string[] { "2x7", "3x7" });
-        pageTypeComboBox.SelectedIndex = 0;
-
-        AddRow(pageTypeLabel, pageTypeComboBox);
-    }
-    
-    private void addSampleTypeFields()
-    {
-        Label sampleTypeLabel = new Label();
-        sampleTypeLabel.Text = "Sample Type:";
-        sampleTypeLabel.Size = new Size(labelWidth, labelHeight);
-        
-        ComboBox sampleTypeComboBox = new ComboBox();
-        sampleTypeComboBox.Size = new Size(inputWidth, inputHeight);
-        sampleTypeComboBox.Items.AddRange(new string[] { "Material sample", "Drilling Sample" });
-        sampleTypeComboBox.SelectedIndex = 0;
-        
-        Label prefixLabel = new Label();
-        prefixLabel.Text = "Prefix:";
-        prefixLabel.Size = new Size(labelWidth, labelHeight);
-        prefixLabel.Visible = false;
-
-        TextBox prefixInput = new TextBox();
-        prefixInput.Size = new Size(inputWidth, inputHeight);
-        prefixInput.Visible = false;
-        
-        Label depthLabel = new Label();
-        depthLabel.Text = "Max Depth:";
-        depthLabel.Size = new Size(labelWidth, labelHeight);
-        depthLabel.Visible = false;
-
-        TextBox depthInput = new TextBox();
-        depthInput.Size = new Size(inputWidth, inputHeight);
-        depthInput.Visible = false;
-        
-        AddRow(sampleTypeLabel, sampleTypeComboBox);
-        AddRow(prefixLabel, prefixInput);
-        AddRow(depthLabel, depthInput);
-        
-        sampleTypeComboBox.SelectedIndexChanged += (sender, e) =>
+        private void AddHeader()
         {
-            bool isDrilling = sampleTypeComboBox.SelectedItem?.ToString() == "Drilling Sample";
+            var header = new Label
+            {
+                Text = "SAMPØLL",
+                Location = new Point(Margin, Margin),
+                Font = new Font("MonoSpace", 24, FontStyle.Bold),
+                ForeColor = Color.White,
+                Size = new Size(300, HeaderHeight),
+                TextAlign = ContentAlignment.MiddleCenter,
+                BackColor = Color.DodgerBlue
+            };
+            this.Controls.Add(header);
+        }
 
-            prefixLabel.Visible = isDrilling;
-            prefixInput.Visible = isDrilling;
-            depthLabel.Visible = isDrilling;
-            depthInput.Visible = isDrilling;
-        };
+        private void AddTableLayout()
+        {
+            _table = new TableLayoutPanel
+            {
+                ColumnCount = 2,
+                RowCount = 0, // will grow as you add rows
+                Location = new Point(Margin, Margin + HeaderHeight),
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                CellBorderStyle = TableLayoutPanelCellBorderStyle.None
+            };
+            _table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, LabelWidth));
+            _table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            this.Controls.Add(_table);
+        }
 
+        private void AddRow(Control label, Control input)
+        {
+            _table.RowCount += 1;
+            _table.RowStyles.Add(new RowStyle(SizeType.Absolute, RowHeight));
+            _table.Controls.Add(label, 0, _table.RowCount - 1);
+            _table.Controls.Add(input, 1, _table.RowCount - 1);
+        }
+
+        private void AddProjectNumberField()
+        {
+            var prjnumLabel = new Label { Text = "Project Number:", Size = new Size(LabelWidth, LabelHeight) };
+            _projectNumberInput = new TextBox { Size = new Size(InputWidth, InputHeight) };
+            AddRow(prjnumLabel, _projectNumberInput);
+        }
+
+        private void AddLocationField()
+        {
+            var locationLabel = new Label { Text = "Location:", Size = new Size(LabelWidth, LabelHeight) };
+            _locationInput = new TextBox { Size = new Size(InputWidth, InputHeight) };
+            AddRow(locationLabel, _locationInput);
+        }
+
+        private void AddDateField()
+        {
+            var dateLabel = new Label { Text = "Date:", TextAlign = ContentAlignment.MiddleLeft, AutoSize = true };
+            _singleDatePicker = new DateTimePicker();
+            _dateRangeFromLabel = new Label { Text = "From:", TextAlign = ContentAlignment.MiddleLeft, AutoSize = true, Visible = false };
+            _dateRangeFromPicker = new DateTimePicker { Visible = false };
+            _dateRangeToLabel = new Label { Text = "To:", TextAlign = ContentAlignment.MiddleLeft, AutoSize = true, Visible = false };
+            _dateRangeToPicker = new DateTimePicker { Visible = false };
+            _useDateRangeCheckbox = new CheckBox { Text = "Date Range" };
+            _useDateRangeCheckbox.CheckedChanged += UseDateRangeCheckbox_CheckedChanged;
+
+            var dateContainer = new FlowLayoutPanel { AutoSize = true };
+            dateContainer.Controls.Add(_singleDatePicker);
+            dateContainer.Controls.Add(_dateRangeFromLabel);
+            dateContainer.Controls.Add(_dateRangeFromPicker);
+            dateContainer.Controls.Add(_dateRangeToLabel);
+            dateContainer.Controls.Add(_dateRangeToPicker);
+
+            _table.RowCount += 1;
+            _table.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            _table.Controls.Add(dateLabel, 0, _table.RowCount - 1);
+            _table.Controls.Add(dateContainer, 1, _table.RowCount - 1);
+
+            _table.RowCount += 1;
+            _table.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            _table.Controls.Add(_useDateRangeCheckbox, 0, _table.RowCount - 1);
+            _table.SetColumnSpan(_useDateRangeCheckbox, 2);
+        }
+
+        private void UseDateRangeCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            bool useRange = _useDateRangeCheckbox.Checked;
+            _singleDatePicker.Visible = !useRange;
+            _dateRangeFromLabel.Visible = useRange;
+            _dateRangeFromPicker.Visible = useRange;
+            _dateRangeToLabel.Visible = useRange;
+            _dateRangeToPicker.Visible = useRange;
+            int heightChange = 50 + Margin;
+            this.Size = new Size(this.Width, this.Height + (useRange ? heightChange : -heightChange));
+        }
+
+        private void AddInitialsFields()
+        {
+            var initialsLabel = new Label { Text = "Initials:", Size = new Size(LabelWidth, LabelHeight) };
+            _initialsInput = new TextBox { Size = new Size(InputWidth, InputHeight) };
+            AddRow(initialsLabel, _initialsInput);
+        }
+
+        private void AddSeparator()
+        {
+            _table.RowCount += 1;
+            _table.RowStyles.Add(new RowStyle(SizeType.Absolute, 10));
+
+            var separator = new Label
+            {
+                Text = "-------------------------------------------------",
+                TextAlign = ContentAlignment.MiddleCenter,
+                AutoSize = true
+            };
+
+            _table.Controls.Add(separator, 0, _table.RowCount - 1);
+            _table.SetColumnSpan(separator, 2);
+        }
+
+        private void AddFilledPagesField()
+        {
+            var filledPagesLabel = new Label { Text = "Pages:", Size = new Size(LabelWidth, LabelHeight) };
+            _filledPagesInput = new NumericUpDown { Size = new Size(InputWidth, InputHeight), Minimum = 0 };
+            AddRow(filledPagesLabel, _filledPagesInput);
+        }
+
+        private void AddEmptyNumbersPagesField()
+        {
+            var emptyNumbersPagesLabel = new Label { Text = "Empty Numbers Pages:", Size = new Size(LabelWidth, LabelHeight) };
+            _emptyNumbersPagesInput = new NumericUpDown { Size = new Size(InputWidth, InputHeight), Minimum = 0 };
+            AddRow(emptyNumbersPagesLabel, _emptyNumbersPagesInput);
+        }
+
+        private void AddEmptyPagesField()
+        {
+            var emptyPagesLabel = new Label { Text = "Empty Pages:", Size = new Size(LabelWidth, LabelHeight) };
+            _emptyPagesInput = new NumericUpDown { Size = new Size(InputWidth, InputHeight), Minimum = 0 };
+            AddRow(emptyPagesLabel, _emptyPagesInput);
+        }
+
+        private void AddSubmitButton()
+        {
+            var submitButton = new Button
+            {
+                Text = "Submit",
+                AutoSize = true,
+                Anchor = AnchorStyles.Right
+            };
+            submitButton.Click += SubmitButton_Click;
+
+            _table.RowCount += 1;
+            _table.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            _table.Controls.Add(submitButton, 0, _table.RowCount - 1);
+            _table.SetColumnSpan(submitButton, 2);
+        }
+
+        private void SubmitButton_Click(object sender, EventArgs e)
+        {
+            if (ValidateFields())
+            {
+                SaveFile();
+            }
+        }
+
+        private bool ValidateFields()
+        {
+            var errorMessages = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(_projectNumberInput.Text))
+            {
+                errorMessages.Add("Project Number is required.");
+            }
+
+            if (string.IsNullOrWhiteSpace(_locationInput.Text))
+            {
+                errorMessages.Add("Location is required.");
+            }
+
+            if (string.IsNullOrWhiteSpace(_initialsInput.Text))
+            {
+                errorMessages.Add("Initials are required.");
+            }
+
+            if (_useDateRangeCheckbox.Checked)
+            {
+                if (_dateRangeFromPicker.Value.Date == _dateRangeToPicker.Value.Date)
+                {
+                    errorMessages.Add("Date range 'From' and 'To' cannot be the same.");
+                }
+            }
+
+            if (_sampleTypeComboBox.SelectedItem?.ToString() == "Drilling Sample")
+            {
+                if (string.IsNullOrWhiteSpace(_drillNumberComboBox.Text))
+                {
+                    errorMessages.Add("Drill Number is required.");
+                }
+
+                if (string.IsNullOrWhiteSpace(_depthInput.Text))
+                {
+                    errorMessages.Add("Max Depth is required.");
+                }
+            }
+
+            // Check for any additional inputs as needed...
+
+            if (errorMessages.Any())
+            {
+                MessageBox.Show(string.Join(Environment.NewLine, errorMessages), "Validation Errors", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        private void SaveFile()
+        {
+            using (var saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+                saveFileDialog.Title = "Save File";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    CreateFile(saveFileDialog.FileName);
+                    MessageBox.Show($"File saved to: {saveFileDialog.FileName}");
+                }
+            }
+        }
+
+        private void CreateFile(string filePath)
+        {
+            string defaultFileName = _locationInput.Text + " - " + FormatDate + ".pdf";
+            Console.WriteLine(defaultFileName);
+            
+        }
+        
+        private string FormatDate
+        {
+            get
+            {
+                if (_useDateRangeCheckbox.Checked)
+                {
+                    return $"{_dateRangeFromPicker.Value:yyyy-MM-dd} to {_dateRangeToPicker.Value:yyyy-MM-dd}";
+                }
+                else
+                {
+                    return _singleDatePicker.Value.ToString("yyyy-MM-dd");
+                }
+            }
+        }
+
+        private void AddPageTypeOptionsField()
+        {
+            var pageTypeLabel = new Label { Text = "Page Type:", Size = new Size(LabelWidth, LabelHeight) };
+            _pageTypeComboBox = new ComboBox { Size = new Size(InputWidth, InputHeight) };
+            _pageTypeComboBox.Items.AddRange(new[] { "2x7", "3x7" });
+            _pageTypeComboBox.SelectedIndex = 0;
+            AddRow(pageTypeLabel, _pageTypeComboBox);
+        }
+
+        private void AddSampleTypeFields()
+        {
+            var sampleTypeLabel = new Label { Text = "Sample Type:", Size = new Size(LabelWidth, LabelHeight) };
+            _sampleTypeComboBox = new ComboBox { Size = new Size(InputWidth, InputHeight) };
+            _sampleTypeComboBox.Items.AddRange(new[] { "Material sample", "Drilling Sample" });
+            _sampleTypeComboBox.SelectedIndex = 0;
+
+            var drillNumberLabel = new Label { Text = "Drill Number:", Size = new Size(LabelWidth, LabelHeight), Visible = false };
+            _drillNumberComboBox = new ComboBox { Size = new Size(InputWidth, InputHeight), Visible = false };
+            _drillNumberComboBox.Items.AddRange(new[] { "1", "10", "20", "30", "40" });
+            _drillNumberComboBox.SelectedIndex = 0;
+
+            var depthLabel = new Label { Text = "Max Depth:", Size = new Size(LabelWidth, LabelHeight), Visible = false };
+            _depthInput = new TextBox { Size = new Size(InputWidth, InputHeight), Visible = false };
+
+            AddRow(sampleTypeLabel, _sampleTypeComboBox);
+            AddRow(drillNumberLabel, _drillNumberComboBox);
+            AddRow(depthLabel, _depthInput);
+
+            _sampleTypeComboBox.SelectedIndexChanged += (sender, e) =>
+            {
+                bool isDrilling = _sampleTypeComboBox.SelectedItem?.ToString() == "Drilling Sample";
+                drillNumberLabel.Visible = isDrilling;
+                _drillNumberComboBox.Visible = isDrilling;
+                depthLabel.Visible = isDrilling;
+                _depthInput.Visible = isDrilling;
+            };
+        }
     }
 }
