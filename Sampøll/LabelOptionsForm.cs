@@ -15,6 +15,7 @@ namespace Sampøll
         public LabelOptionsForm()
         {
             InitializeComponent();
+            
             AddHeader();
             AddTableLayout();
             AddProjectNumberField();
@@ -22,8 +23,10 @@ namespace Sampøll
             AddInitialsFields();
             AddDateField();
             AddSeparator();
+            
             AddSampleTypeFields();
             AddSeparator();
+            
             AddFilledPagesField();
             AddEmptyNumbersPagesField();
             AddEmptyPagesField();
@@ -158,6 +161,7 @@ namespace Sampøll
         {
             var filledPagesLabel = new Label { Text = "Pages:", Size = new Size(Constants.LabelWidth, Constants.LabelHeight) };
             _filledPagesInput = new NumericUpDown { Size = new Size(Constants.InputWidth, Constants.InputHeight), Minimum = 0 };
+            _filledPagesInput.Value = 1;
             AddRow(filledPagesLabel, _filledPagesInput);
         }
 
@@ -195,7 +199,40 @@ namespace Sampøll
         {
             if (ValidateFields())
             {
-                SaveFile();
+                string selectedPaperTypeId = _pageTypeComboBox.SelectedItem.ToString();
+
+                PaperDefinition config = PaperDefinitions.GetDefinitionById(selectedPaperTypeId);
+
+                string htmlFilePath = Path.Combine(Application.StartupPath, "grid.html");
+                string pdfFilePath = Path.Combine(Application.StartupPath, $"Sampøll_labels-{FormatDate}.pdf");
+
+                // Generate HTML file based on config
+                Printer.Print(
+                    Decimal.ToInt32(_filledPagesInput.Value),
+                    Decimal.ToInt32(_emptyNumbersPagesInput.Value),
+                    Decimal.ToInt32(_emptyPagesInput.Value),
+                    
+                    new GridConfig
+                    {
+                        TopMargin = config.MarginTop,
+                        BottomMargin = config.MarginBottom,
+                        LeftMargin = config.MarginLeft,
+                        RightMargin = config.MarginRight,
+                        MiddleMargin = config.MarginMiddle,
+                        Columns = config.Columns,
+                        Rows = config.Rows
+                    },
+                    htmlFilePath,
+                    
+                    _projectNumberInput.Text,
+                    _locationInput.Text,
+                    _sampleTypeComboBox.SelectedItem?.ToString() ?? "",
+                    FormatDate,
+                    _initialsInput.Text
+                );
+
+                // Generate PDF from the HTML file and open it in the browser for preview
+                Printer.GeneratePdfFromHtml(htmlFilePath, pdfFilePath);
             }
         }
 
@@ -238,9 +275,7 @@ namespace Sampøll
                     errorMessages.Add("Max Depth is required.");
                 }
             }
-
-            // Check for any additional inputs as needed...
-
+            
             if (errorMessages.Any())
             {
                 MessageBox.Show(string.Join(Environment.NewLine, errorMessages), "Validation Errors", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -248,28 +283,6 @@ namespace Sampøll
             }
 
             return true;
-        }
-
-        private void SaveFile()
-        {
-            using (var saveFileDialog = new SaveFileDialog())
-            {
-                saveFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
-                saveFileDialog.Title = "Save File";
-
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    CreateFile(saveFileDialog.FileName);
-                    MessageBox.Show($"File saved to: {saveFileDialog.FileName}");
-                }
-            }
-        }
-
-        private void CreateFile(string filePath)
-        {
-            string defaultFileName = _locationInput.Text + " - " + FormatDate + ".pdf";
-            Console.WriteLine(defaultFileName);
-            
         }
         
         private string FormatDate
@@ -291,7 +304,7 @@ namespace Sampøll
         {
             var pageTypeLabel = new Label { Text = "Page Type:", Size = new Size(Constants.LabelWidth, Constants.LabelHeight) };
             _pageTypeComboBox = new ComboBox { Size = new Size(Constants.InputWidth, Constants.InputHeight) };
-            _pageTypeComboBox.Items.AddRange(new[] { "2x7", "3x7" });
+            _pageTypeComboBox.Items.AddRange(new[] { "2x7", "3x7", "3x8" });
             _pageTypeComboBox.SelectedIndex = 0;
             AddRow(pageTypeLabel, _pageTypeComboBox);
         }

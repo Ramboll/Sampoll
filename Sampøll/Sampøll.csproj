@@ -13,6 +13,11 @@
       <Content Include="icon.ico">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Remove="wkhtmltoimage.exe" />
+      <None Remove="wkhtmltopdf.exe" />
+      <Content Include="wkhtmltopdf.exe">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>
