@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '9.0.x'
-          
+
       - name: Restore dependencies
         run: dotnet restore
 
@@ -25,21 +25,18 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Publish the project
-        run: dotnet publish -c Release -o ./publish --self-contained -r win-x64
+        run: dotnet publish -c Release --self-contained -r win-x64 -o ./publish
 
-      # List all files in the repository to find where sampoll.exe might be located
-      - name: List all files in repository
+      # Add diagnostics steps
+      - name: List all files in repository post-publish
         run: find . -type f -name "*"
 
-      # List files in publish directory to ensure it contains the expected files
       - name: List files in publish directory
         run: ls -la ./publish
 
-      # Print the directory structure in 'publish' directory for further diagnosis
-      - name: Print directory structure
-        run: tree ./publish
+      - name: Print directory structure of publish
+        run: find ./publish
 
-      # Verify the presence of sampoll.exe file
       - name: Verify sampoll.exe presence
         run: |
           if [ -f "./publish/sampoll.exe" ]; then
