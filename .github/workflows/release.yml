@@ -22,12 +22,14 @@ jobs:
         run: dotnet restore
 
       - name: Build the project
+        continue-on-error: true
         run: dotnet build --configuration Release --no-restore
 
       - name: Publish the project
+        continue-on-error: true
         run: dotnet publish -c Release --self-contained -r win-x64 -o ./publish
-
-      # Add diagnostics steps
+        
+      # Diagnostics: Listing all files
       - name: List all files in repository post-publish
         run: find . -type f -name "*"
 
