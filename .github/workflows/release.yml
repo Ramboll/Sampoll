@@ -1,4 +1,4 @@
-﻿name: Release
+name: Release
 
 on:
   push:
@@ -26,6 +26,13 @@ jobs:
 
       - name: Publish the project
         run: dotnet publish -c Release -o ./publish --self-contained -r win-x64
+
+      - name: List files in publish directory
+        run: ls -la ./publish
+
+      # Verify that sampoll.exe exists in the expected directory
+      - name: Check for sampoll.exe
+        run: test -f ./publish/sampoll.exe && echo "sampoll.exe exists" || echo "sampoll.exe does not exist"
 
       - name: Create Release
         id: create_release
