@@ -1,3 +1,3 @@
 ## Download
 
-[![Download](https://img.shields.io/badge/Download--blue.svg)](https://github.com/Ramboll/Sampoll/releases/latest/download/sampøll.exe)
+[Download executable](https://github.com/your-username/your-repo-name/suites/<suite-id>/artifacts/<artifact-id>)
