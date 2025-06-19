@@ -7,64 +7,28 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '9.0.x'
+          dotnet-version: '5.0.x' # Adjust this to match your required .NET version
 
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Build the project
-        continue-on-error: true
-        run: dotnet build --configuration Release --no-restore
+      - name: Build
+        run: dotnet build --configuration Release
 
-      - name: Publish the project
-        continue-on-error: true
-        run: dotnet publish -c Release --self-contained -r win-x64 -o ./publish
-        
-      # Diagnostics: Listing all files
-      - name: List all files in repository post-publish
-        run: find . -type f -name "*"
+      - name: Publish
+        run: dotnet publish --configuration Release --output ./output
 
-      - name: List files in publish directory
-        run: ls -la ./publish
-
-      - name: Print directory structure of publish
-        run: find ./publish
-
-      - name: Verify sampoll.exe presence
-        run: |
-          if [ -f "./publish/sampoll.exe" ]; then
-            echo "sampoll.exe exists"
-          else
-            echo "sampoll.exe does not exist"
-            exit 1
-          fi
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
         with:
-          tag_name: v${{ github.run_number }}
-          release_name: Release ${{ github.run_number }}
-          draft: false
-          prerelease: false
-
-      - name: Upload release asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./publish/sampoll.exe
-          asset_name: sampoll.exe
-          asset_content_type: application/octet-stream
+          name: sampoll
+          path: ./output
