@@ -25,14 +25,26 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Publish the project
-        run: dotnet publish -c Release -o ./publish --self-contained -r win-x64
+        run: dotnet publish -c Release --self-contained -r win-x64 -o ./publish
+
+      # Add diagnostics steps
+      - name: List all files in repository post-publish
+        run: find . -type f -name "*"
 
       - name: List files in publish directory
         run: ls -la ./publish
 
-      # Verify that sampoll.exe exists in the expected directory
-      - name: Check for sampoll.exe
-        run: test -f ./publish/sampoll.exe && echo "sampoll.exe exists" || echo "sampoll.exe does not exist"
+      - name: Print directory structure of publish
+        run: find ./publish
+
+      - name: Verify sampoll.exe presence
+        run: |
+          if [ -f "./publish/sampoll.exe" ]; then
+            echo "sampoll.exe exists"
+          else
+            echo "sampoll.exe does not exist"
+            exit 1
+          fi
 
       - name: Create Release
         id: create_release
