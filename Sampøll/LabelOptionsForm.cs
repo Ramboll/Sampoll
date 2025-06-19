@@ -200,6 +200,13 @@ namespace Sampøll
             if (ValidateFields())
             {
                 string selectedPaperTypeId = _pageTypeComboBox.SelectedItem.ToString();
+                string samplePrefix = _sampleTypeComboBox.SelectedItem.ToString() switch
+                {
+                    "Material sample" => "M",
+                    "Drilling Sample" => $"D{_drillNumberComboBox.Text}",
+                    "Surface Sample (Not done)" => "S",
+                    _ => throw new InvalidOperationException("Unknown sample type")
+                };
 
                 PaperDefinition config = PaperDefinitions.GetDefinitionById(selectedPaperTypeId);
 
@@ -226,7 +233,7 @@ namespace Sampøll
                     
                     _projectNumberInput.Text,
                     _locationInput.Text,
-                    _sampleTypeComboBox.SelectedItem?.ToString() ?? "",
+                    samplePrefix,
                     FormatDate,
                     _initialsInput.Text
                 );

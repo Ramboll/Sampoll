@@ -105,21 +105,44 @@ namespace Sampøll
                     }}
 
                     table {{
-                    border-collapse: collapse;
-                    width: 100%;
-                    height: 100%;
-                    table-layout: fixed;
-                    }}
-                }}
+                        border-collapse: collapse;
+                        width: 100%;
+                        height: 100%;
+                        table-layout: fixed;
+                        }}
 
-                td {{
-                    padding: 0;
-                    box-sizing: border-box;
+                    td {{
+                        padding: 0;
+                        box-sizing: border-box;
                         height: {{cellHeightMm}}mm;
+                        position: relative;
+                    }}
+                    
+                    .small-text {{
+                        font-family: Times New Roman, serif;
+                        font-size: 8px;
+                        font-weight: bold;
+                    }}
+
+                    .big-text {{
+                        font-family: Times New Roman, serif;
+                        font-size: 32px;
+                        font-weight: bold;
+                    }}
+                    
+                    .logo {{
+                        position: absolute; 
+                        bottom: 0px; 
+                        right: 0px;  
                     }}
                 </style>"
             );
             sb.AppendLine("</head><body>");
+            
+            string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logo.png");
+            byte[] imageBytes = File.ReadAllBytes(imagePath);
+            string base64Image = Convert.ToBase64String(imageBytes);
+            string imgSrc = $"data:image/png;base64,{base64Image}";
 
             int filledPagesCellIndex = 1;
             for (int p = 0; p < filled_pages; p++)
@@ -133,13 +156,14 @@ namespace Sampøll
                     {
                         sb.AppendLine(
                             $"<td>" +
-                                $"Sags nr.: { project_number } </br>" +
-                                $"Lokation: { location } </br>" +
-                                $"Prøve nr.: { sample_type_prefix } {filledPagesCellIndex++} </br>" +
-                                $"Dato: { date } </br>" +
-                                $"Prøvetager: { initials } </br>" +
-                            $"</td>" +
-                        $"");
+                                $"<span class=\"small-text\">Sags nr.: { project_number }</span></br>" +
+                                $"<span class=\"small-text\">Lokation: { location }</span></br>" +
+                                $"<span class=\"big-text\">Prøve nr.: { sample_type_prefix }{filledPagesCellIndex++}</span></br>" +
+                                $"<span class=\"small-text\">Dato: { date }</span></br>" +
+                                $"<span class=\"small-text\">Prøvetager: { initials }</span></br>" +
+                                $"<img src=\"{ imgSrc }\" class=\"logo\"/ alt=\"Logo\">"+
+                            $"</td>"
+                        );
                     }
                     sb.AppendLine("</tr>");
                 }
@@ -159,9 +183,13 @@ namespace Sampøll
                     {
                         sb.AppendLine(
                             $"<td>" +
-                                $"No Number Page {p + 1}<br/>Cell {noNumberPagesCellIndex++}" +
-                            $"</td>" +
-                        $"");
+                                $"Sags nr.: { project_number } </br>" +
+                                $"Lokation: { location } </br>" +
+                                $"Prøve nr.: { sample_type_prefix } </br>" +
+                                $"Dato: { date } </br>" +
+                                $"Prøvetager: { initials } </br>" +
+                            $"</td>"
+                        );
                     }
                     sb.AppendLine("</tr>");
                 }
@@ -181,9 +209,13 @@ namespace Sampøll
                     {
                         sb.AppendLine(
                             $"<td>" +
-                            $"Empty Page {p + 1}<br/>Cell {noNumberPagesCellIndex++}" +
-                            $"</td>" +
-                            $"");
+                                $"Sags nr.: { project_number } </br>" +
+                                $"Lokation: { location } </br>" +
+                                $"Prøve nr.: { sample_type_prefix } </br>" +
+                                $"Dato: { date } </br>" +
+                                $"Prøvetager: { initials } </br>" +
+                            $"</td>"
+                        );
                     }
                     sb.AppendLine("</tr>");
                 }
