@@ -9,6 +9,7 @@
         <EnableWindowsTargeting>true</EnableWindowsTargeting>
         <ImplicitUsings>enable</ImplicitUsings>
         <SelfContained>true</SelfContained>
+        <PublishSingleFile>true</PublishSingleFile>
     </PropertyGroup>
 
     <ItemGroup>
