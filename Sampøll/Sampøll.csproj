@@ -15,17 +15,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="icon.ico" />
-      <None Remove="wkhtmltoimage.exe" />
-      <None Remove="wkhtmltopdf.exe" />
-      <None Remove="logo.png" />
-      <Content Update="assets\icon.ico">
+      <Content Update="icon.ico">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-      <Content Update="assets\logo.png">
+      <Content Update="logo.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-      <Content Update="assets\wkhtmltopdf.exe">
+      <Content Update="wkhtmltopdf.exe">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
