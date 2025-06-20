@@ -139,7 +139,7 @@ namespace Sampøll
             );
             sb.AppendLine("</head><body>");
             
-            string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logo.png");
+            string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets/logo.png");
             byte[] imageBytes = File.ReadAllBytes(imagePath);
             string base64Image = Convert.ToBase64String(imageBytes);
             string imgSrc = $"data:image/png;base64,{base64Image}";
@@ -231,7 +231,7 @@ namespace Sampøll
         public static void GeneratePdfFromHtml(string htmlFilePath, string pdfFilePath)
         {
             // Find the path to the bundled wkhtmltopdf executable
-            string wkhtmltopdfPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "wkhtmltopdf.exe");
+            string wkhtmltopdfPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets/wkhtmltopdf.exe");
 
             // Ensure the file exists before attempting to start it
             if (!File.Exists(wkhtmltopdfPath))

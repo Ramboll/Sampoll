@@ -37,7 +37,7 @@ namespace Sampøll
             int viewWidth = (Constants.Margin * 2) * 2 + Constants.LabelWidth + Constants.InputWidth;
             int viewHeight = (Constants.Margin * 2) + (Constants.RowHeight * _table.RowCount) + Constants.HeaderHeight;
             this.Size = new System.Drawing.Size(viewWidth, viewHeight);
-            this.Icon = new Icon("icon.ico");
+            this.Icon = new Icon("assets/icon.ico");
         }
 
         private void AddHeader()

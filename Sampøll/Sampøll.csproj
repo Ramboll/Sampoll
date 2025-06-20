@@ -10,20 +10,22 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <SelfContained>true</SelfContained>
         <PublishSingleFile>true</PublishSingleFile>
+        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+        <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
     </PropertyGroup>
 
     <ItemGroup>
       <None Remove="icon.ico" />
-      <Content Include="icon.ico">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <None Remove="wkhtmltoimage.exe" />
       <None Remove="wkhtmltopdf.exe" />
-      <Content Include="wkhtmltopdf.exe">
+      <None Remove="logo.png" />
+      <Content Update="assets\icon.ico">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-      <None Remove="logo.png" />
-      <Content Include="logo.png">
+      <Content Update="assets\logo.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Update="assets\wkhtmltopdf.exe">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
