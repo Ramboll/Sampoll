@@ -9,16 +9,20 @@
         <EnableWindowsTargeting>true</EnableWindowsTargeting>
         <ImplicitUsings>enable</ImplicitUsings>
         <SelfContained>true</SelfContained>
+        <PublishSingleFile>true</PublishSingleFile>
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Update="icon.ico">
+      <None Remove="icon.ico" />
+      <Content Include="icon.ico">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-      <Content Update="logo.png">
+      <None Remove="wkhtmltopdf.exe" />
+      <Content Include="wkhtmltopdf.exe">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-      <Content Update="wkhtmltopdf.exe">
+      <None Remove="logo.png" />
+      <Content Include="logo.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
