@@ -21,9 +21,9 @@
       <Content Update="logo.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-      <None Update="wkhtmltopdf.exe">
+      <Content Update="wkhtmltopdf.exe">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+      </Content>
     </ItemGroup>
 
 </Project>
