@@ -120,7 +120,7 @@ namespace Sampøll
                     
                     .small-text {{
                         font-family: Times New Roman, serif;
-                        font-size: 8px;
+                        font-size: 10px;
                         font-weight: bold;
                     }}
 
@@ -183,11 +183,11 @@ namespace Sampøll
                     {
                         sb.AppendLine(
                             $"<td>" +
-                                $"Sags nr.: { project_number } </br>" +
-                                $"Lokation: { location } </br>" +
-                                $"Prøve nr.: { sample_type_prefix } </br>" +
-                                $"Dato: { date } </br>" +
-                                $"Prøvetager: { initials } </br>" +
+                                $"<span class=\"small-text\">Sags nr.: { project_number }</span></br>" +
+                                $"<span class=\"small-text\">Lokation: { location }</span></br>" +
+                                $"<span class=\"big-text\">Prøve nr.: { sample_type_prefix }</span></br>" +
+                                $"<span class=\"small-text\">Dato: { date }</span></br>" +
+                                $"<span class=\"small-text\">Prøvetager: { initials }</span></br>" +
                             $"</td>"
                         );
                     }
@@ -209,11 +209,11 @@ namespace Sampøll
                     {
                         sb.AppendLine(
                             $"<td>" +
-                                $"Sags nr.: { project_number } </br>" +
-                                $"Lokation: { location } </br>" +
-                                $"Prøve nr.: { sample_type_prefix } </br>" +
-                                $"Dato: { date } </br>" +
-                                $"Prøvetager: { initials } </br>" +
+                                $"<span class=\"small-text\">Sags nr.: { project_number }</span></br>" +
+                                $"<span class=\"small-text\">Lokation: { location }</span></br>" +
+                                $"<span class=\"big-text\">Prøve nr.: { sample_type_prefix }</span></br>" +
+                                $"<span class=\"small-text\">Dato: { date }</span></br>" +
+                                $"<span class=\"small-text\">Prøvetager: { initials }</span></br>" +
                             $"</td>"
                         );
                     }
