@@ -81,6 +81,9 @@ namespace Sampøll
             
             double availableHeightMm = 297 - marginTopMm - marginBottomMm;
             double cellHeightMm = availableHeightMm / rows;
+            
+            double availableWidthMm = 210 - marginLeftMm - marginRightMm - (columns - 1) * columnSpacingMm;
+            double cellWidthMm = availableWidthMm / columns;
 
             var sb = new System.Text.StringBuilder();
 
@@ -109,13 +112,24 @@ namespace Sampøll
                         width: 100%;
                         height: 100%;
                         table-layout: fixed;
-                        }}
+                    }}
 
                     td {{
-                        padding: 0;
+                        border: 1px solid black;
+                        margin: 0;
                         box-sizing: border-box;
                         height: {{cellHeightMm}}mm;
+                        width: {{cellWidthMm}}mm;
                         position: relative;
+                        padding-right: {columnSpacingMm}mm;
+                    }}
+
+                    td:nth-child(1) {{
+                        padding-left: {marginLeftMm}mm;
+                    }}
+
+                    td:last-child {{
+                        padding-right: {marginRightMm}mm;
                     }}
                     
                     .small-text {{
