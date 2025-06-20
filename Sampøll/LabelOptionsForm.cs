@@ -203,6 +203,8 @@ namespace Sampøll
                 string samplePrefix = _sampleTypeComboBox.SelectedItem.ToString() switch
                 {
                     "Material sample" => "M",
+                    "Suplemental sample" => "S",
+                    "Core drilled sample" => "K",
                     "Drilling Sample" => $"D{_drillNumberComboBox.Text}",
                     "Surface Sample (Not done)" => "S",
                     _ => throw new InvalidOperationException("Unknown sample type")
@@ -320,7 +322,7 @@ namespace Sampøll
         {
             var sampleTypeLabel = new Label { Text = "Sample Type:", Size = new Size(Constants.LabelWidth, Constants.LabelHeight) };
             _sampleTypeComboBox = new ComboBox { Size = new Size(Constants.InputWidth, Constants.InputHeight) };
-            _sampleTypeComboBox.Items.AddRange(new[] { "Material sample", "Drilling Sample", "Surface Sample (Not done)" });
+            _sampleTypeComboBox.Items.AddRange(new[] { "Material sample", "", "", "Drilling Sample", "Surface Sample (Not done)" });
             _sampleTypeComboBox.SelectedIndex = 0;
 
             var drillNumberLabel = new Label { Text = "Drill Number:", Size = new Size(Constants.LabelWidth, Constants.LabelHeight), Visible = false };

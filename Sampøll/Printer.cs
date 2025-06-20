@@ -209,11 +209,11 @@ namespace Sampøll
                     {
                         sb.AppendLine(
                             $"<td>" +
-                                $"<span class=\"small-text\">Sags nr.: { project_number }</span></br>" +
-                                $"<span class=\"small-text\">Lokation: { location }</span></br>" +
-                                $"<span class=\"big-text\">Prøve nr.: { sample_type_prefix }</span></br>" +
-                                $"<span class=\"small-text\">Dato: { date }</span></br>" +
-                                $"<span class=\"small-text\">Prøvetager: { initials }</span></br>" +
+                                $"<span class=\"small-text\">Sags nr.:</span></br>" +
+                                $"<span class=\"small-text\">Lokation:</span></br>" +
+                                $"<span class=\"big-text\">Prøve nr.:</span></br>" +
+                                $"<span class=\"small-text\">Dato:</span></br>" +
+                                $"<span class=\"small-text\">Prøvetager:</span></br>" +
                             $"</td>"
                         );
                     }
